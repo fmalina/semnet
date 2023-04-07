@@ -4,7 +4,7 @@ isa = get_is_a()
 example = get_example_of()
 
 g_relations = {'isa': isa, 'exampleOf': example}
-g_entities = {}
+g_concepts = {}
 
 
 def ask_yes_no(prompt, default='Y'):
@@ -17,11 +17,11 @@ def ask_yes_no(prompt, default='Y'):
 		print("Please enter Y or N.")
 
 
-def handle_command(cmd, entities=g_entities, relations=g_relations):
+def handle_command(cmd, concepts=g_concepts, relations=g_relations):
 	"""Respond to a command from the user"""
 	words = cmd.lower().split()
-	if words[0] in ('entity', 'e'):
-		entities[words[1]] = Entity(words[1])
+	if words[0] in ('concept', 'c', 'entity', 'e'):
+		concepts[words[1]] = Concept(words[1])
 	elif words[0] in ('relation', 'r'):
 		trans = ask_yes_no("Transitive?")
 		opp = input("Opposite? ").lower()
@@ -30,16 +30,16 @@ def handle_command(cmd, entities=g_entities, relations=g_relations):
 			relations[opp] = Relation(opp,trans, \
 				relations[words[1]])
 	elif words[0] == 'list':
-		print("Entities:", entities.keys())
+		print("Concepts:", concepts.keys())
 		print("Relations:", relations.keys())
 	else:
-		agent = entities[words[0]]
+		agent = concepts[words[0]]
 		relation = relations[words[1]]
 		if words[2][-1] == '?':
-			object = entities[words[2][:-1]]
+			object = concepts[words[2][:-1]]
 			handle_question(agent, relation, object)
 		else:
-			object = entities[words[2]]
+			object = concepts[words[2]]
 			handle_statement(agent, relation, object)
 
 def handle_question(agent, relation, object):

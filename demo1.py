@@ -6,14 +6,14 @@ isa = get_is_a()
 # inverse of "is-a" is "exampleOf"
 example = get_example_of()
 
-# declare some entities we want to store knowledge about
-thing = Entity("thing")
-animal = Entity("animal")
-bird = Entity("bird")
-fish = Entity("fish")
-minnow = Entity("minnow")
-trout = Entity("trout")
-ape = Entity("ape")
+# declare some concepts we want to store knowledge about
+thing = Concept("thing")
+animal = Concept("animal")
+bird = Concept("bird")
+fish = Concept("fish")
+minnow = Concept("minnow")
+trout = Concept("trout")
+ape = Concept("ape")
 
 # declare some facts: what's what?
 Fact(animal, isa, thing)
@@ -50,10 +50,10 @@ print("minnow bigger than trout?", biggerThan(minnow, trout))
 print("minnow is smaller than:", minnow.objects(smallerThan))
 print("ape is bigger than:", ape.objects(biggerThan))
 
-# declare entities for actions (these are nouns too, you know)
-act = Entity("act")
-swim = Entity("swim")
-walk = Entity("walk")
+# declare concepts for actions
+act = Concept("act")
+swim = Concept("swim")
+walk = Concept("walk")
 Fact(swim, isa, act)
 Fact(walk, isa, act)
 
@@ -77,8 +77,8 @@ print("what can act?", act.get_objects(whatCan))
 has = Relation("has", 0)
 whatHas = Relation("whatHas", 0, has)
 
-scales = Entity("scales")
-hair = Entity("hair")
+scales = Concept("scales")
+hair = Concept("hair")
 Fact(fish, has, scales)
 Fact(ape, has, hair)
 

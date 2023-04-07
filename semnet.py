@@ -1,13 +1,13 @@
 """Semantic Network"""
 
-class Entity:
-	def __init__(self, id):
-		self.id = id
+class Concept:
+	def __init__(self, slug):
+		self.slug = slug
 		self.m_objects = {}
 		self.m_agents = {}
 
 	def __str__(self):
-		return self.id
+		return self.slug
 	
 	def __repr__(self):
 		return str(self)
@@ -71,8 +71,8 @@ class Entity:
 		return out
 
 class Relation:
-	def __init__(self, id, transitive=1, inverse=None):
-		self.id = id
+	def __init__(self, slug, transitive=1, inverse=None):
+		self.slug = slug
 
 		# a relation @ is transitive if
 		# A @ B and B @ C implies A @ C
@@ -84,7 +84,7 @@ class Relation:
 		else:
 			self.inverse = None
 
-	def __str__(self): return self.id
+	def __str__(self): return self.slug
 	def __repr__(self): return str(self)
 
 	def __call__(self, agent, object=None):
