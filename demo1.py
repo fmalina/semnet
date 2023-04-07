@@ -1,8 +1,5 @@
 from semnet import *
 
-from tostr import tostr
-import string
-
 # get the global "is-a" relationship
 isa = GetIsA()
 
@@ -27,13 +24,13 @@ Fact(trout, isa, fish)
 Fact(minnow, isa, fish)
 
 # print out some of the things we know (directly or by induction)
-print "trout is:", tostr( trout.objects(isa) )
-print "animal is:", tostr( animal.objects(isa) )
-print
-print "fish:", tostr( fish.objects(example) )
-print "fish:", tostr( fish.agents(isa) )
-print "animals:", tostr( animal.agents(isa) )
-print
+print("trout is:", trout.objects(isa))
+print("animal is:", animal.objects(isa))
+print()
+print("fish:", fish.objects(example))
+print("fish:", fish.agents(isa))
+print("animals:", animal.agents(isa))
+print()
 
 # declare size relationships
 biggerThan = Relation("bigger than", 1)
@@ -44,14 +41,14 @@ Fact( minnow, smallerThan, trout )
 Fact( trout, smallerThan, ape )
 
 # look at all the things we know now!
-print "ape is a fish?", isa(ape,fish)
-print "minnow is a fish?", isa(minnow,fish)
-print "minnow is an animal?", isa(minnow,animal)
-print
-print "ape bigger than minnow?", biggerThan(ape,minnow)
-print "minnow bigger than trout?", biggerThan(minnow,trout)
-print "minnow is smaller than:", tostr( minnow.objects(smallerThan) )
-print "ape is bigger than:", tostr( ape.objects(biggerThan) )
+print("ape is a fish?", isa(ape,fish))
+print("minnow is a fish?", isa(minnow,fish))
+print("minnow is an animal?", isa(minnow,animal))
+print()
+print("ape bigger than minnow?", biggerThan(ape,minnow))
+print("minnow bigger than trout?", biggerThan(minnow,trout))
+print("minnow is smaller than:", minnow.objects(smallerThan))
+print("ape is bigger than:", ape.objects(biggerThan))
 
 # declare entities for actions (these are nouns too, you know)
 act = Entity("act")
@@ -69,12 +66,12 @@ Fact( fish, ableTo, swim )
 Fact( walk, whatCan, ape )
 
 # see what we can say about swimming ability
-print
-print "fish can swim?", ableTo( fish, swim )
-print "minnow can swim?", ableTo( minnow, swim )
-print "bird can swim?", ableTo( bird, swim )
-print "what can swim?", tostr( swim.getObjects(whatCan) )
-print "what can act?", tostr( act.getObjects(whatCan) )
+print()
+print("fish can swim?", ableTo( fish, swim ))
+print("minnow can swim?", ableTo( minnow, swim ))
+print("bird can swim?", ableTo( bird, swim ))
+print("what can swim?", swim.getObjects(whatCan))
+print("what can act?", act.getObjects(whatCan))
 
 # declare a "has" relationship (and its inverse)
 has = Relation("has", 0)
@@ -85,9 +82,9 @@ hair = Entity("hair")
 Fact( fish, has, scales )
 Fact( ape, has, hair )
 
-print
-print "minnow has hair?", has( minnow, hair )
-print "minnow has scales?", has( minnow, scales )
-print "ape has hair?", has( ape, hair )
-print "ape has scales?", has( ape, scales )
-print "what has scales?", tostr( scales.getAgents(has) )
+print()
+print("minnow has hair?", has( minnow, hair ))
+print("minnow has scales?", has( minnow, scales ))
+print("ape has hair?", has( ape, hair ))
+print("ape has scales?", has( ape, scales ))
+print("what has scales?", scales.getAgents(has))

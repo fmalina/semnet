@@ -1,4 +1,4 @@
-# Semantic Network stuff
+"""Semantic Network"""
 
 class Entity:
 	def __init__(self,id):
@@ -8,6 +8,9 @@ class Entity:
 
 	def __str__(self):
 		return self.id
+	
+	def __repr__(self):
+		return str(self)
 
 	def objects(self,relation):
 		try: ans = self.mObjects[relation]
@@ -82,6 +85,7 @@ class Relation:
 			self.inverse = None
 
 	def __str__(self): return self.id
+	def __repr__(self): return str(self)
 
 	def __call__(self, agent, object=None):
 		# when used as a function, check to see whether
