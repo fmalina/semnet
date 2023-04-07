@@ -1,13 +1,13 @@
 from semnet import *
 
-isa = GetIsA()
-example = GetExampleOf()
+isa = get_is_a()
+example = get_example_of()
 
-gRelations = {'isa':isa, 'exampleOf':example }
-gEntities = {}
+g_relations = {'isa':isa, 'exampleOf':example }
+g_entities = {}
 
 
-def AskYesNo(prompt, default='Y'):
+def ask_yes_no(prompt, default='Y'):
 	while 1:
 		ans = input(f'{prompt} [{default}] ')
 		if len(ans) > 1: ans = ans[0]
@@ -17,14 +17,13 @@ def AskYesNo(prompt, default='Y'):
 		print("Please enter Y or N.")
 
 
-def handleCommand(cmd, entities=gEntities, relations=gRelations):
+def handle_command(cmd, entities=g_entities, relations=g_relations):
 	"""Respond to a command from the user"""
-	cmd = cmd.lower()
-	words = cmd.split()
-	if words[0] == 'entity' or words[0] == 'e':
+	words = cmd.lower().split()
+	if words[0] in ('entity', 'e'):
 		entities[words[1]] = Entity(words[1])
-	elif words[0] == 'relation' or words[0] == 'r':
-		trans = AskYesNo("Transitive?")
+	elif words[0] in ('relation', 'r'):
+		trans = ask_yes_no("Transitive?")
 		opp = input("Opposite? ").lower()
 		relations[words[1]] = Relation(words[1],trans)
 		if opp:
@@ -38,16 +37,16 @@ def handleCommand(cmd, entities=gEntities, relations=gRelations):
 		relation = relations[words[1]]
 		if words[2][-1] == '?':
 			object = entities[words[2][:-1]]
-			handleQuestion( agent, relation, object )
+			handle_question( agent, relation, object )
 		else:
 			object = entities[words[2]]
-			handleStatement( agent, relation, object )
+			handle_statement( agent, relation, object )
 
-def handleQuestion( agent, relation, object ):
+def handle_question( agent, relation, object ):
 	if relation(agent,object): print("yes")
 	else: print("no")
 
-def handleStatement( agent, relation, object ):
+def handle_statement( agent, relation, object ):
 	if relation(agent,object):
 		print("I already knew that.")
 	else:
@@ -63,7 +62,7 @@ while cmd != 'quit':
 	cmd = input("Command? ")
 	if cmd != 'quit':
 #		try:
-			handleCommand(cmd)
+			handle_command(cmd)
 #		except:
 #			print("Error in command.")
 #			print("Perhaps you used an undefined term?")

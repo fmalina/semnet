@@ -1,10 +1,10 @@
 from semnet import *
 
 # get the global "is-a" relationship
-isa = GetIsA()
+isa = get_is_a()
 
 # inverse of "is-a" is "exampleOf"
-example = GetExampleOf()
+example = get_example_of()
 
 # declare some entities we want to store knowledge about
 thing = Entity("thing")
@@ -70,8 +70,8 @@ print()
 print("fish can swim?", ableTo( fish, swim ))
 print("minnow can swim?", ableTo( minnow, swim ))
 print("bird can swim?", ableTo( bird, swim ))
-print("what can swim?", swim.getObjects(whatCan))
-print("what can act?", act.getObjects(whatCan))
+print("what can swim?", swim.get_objects(whatCan))
+print("what can act?", act.get_objects(whatCan))
 
 # declare a "has" relationship (and its inverse)
 has = Relation("has", 0)
@@ -87,4 +87,4 @@ print("minnow has hair?", has( minnow, hair ))
 print("minnow has scales?", has( minnow, scales ))
 print("ape has hair?", has( ape, hair ))
 print("ape has scales?", has( ape, scales ))
-print("what has scales?", scales.getAgents(has))
+print("what has scales?", scales.get_agents(has))
