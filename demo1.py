@@ -33,8 +33,8 @@ print("animals:", animal.subjects(isa))
 print()
 
 # declare size relationships
-biggerThan = Relation("bigger than", 1)
-smallerThan = Relation("smaller than", 1, biggerThan)
+biggerThan = Predicate("bigger than", 1)
+smallerThan = Predicate("smaller than", 1, biggerThan)
 
 # declare a couple facts
 Fact(minnow, smallerThan, trout)
@@ -58,8 +58,8 @@ Fact(swim, isa, act)
 Fact(walk, isa, act)
 
 # declare an "ableTo" relation, so we can say who can do what
-ableTo = Relation("ableTo", 0)
-whatCan = Relation("whatCan", 0, ableTo)
+ableTo = Predicate("ableTo", 0)
+whatCan = Predicate("whatCan", 0, ableTo)
 
 # note that fish can swim and apes can walk
 Fact(fish, ableTo, swim)
@@ -74,8 +74,8 @@ print("what can swim?", swim.get_objects(whatCan))
 print("what can act?", act.get_objects(whatCan))
 
 # declare a "has" relationship (and its inverse)
-has = Relation("has", 0)
-whatHas = Relation("whatHas", 0, has)
+has = Predicate("has", 0)
+whatHas = Predicate("whatHas", 0, has)
 
 scales = Concept("scales")
 hair = Concept("hair")

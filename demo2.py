@@ -25,13 +25,13 @@ def handle_command(cmd, concepts=g_concepts, relations=g_relations):
 	elif words[0] in ('relation', 'r'):
 		trans = ask_yes_no("Transitive?")
 		opp = input("Opposite? ").lower()
-		relations[words[1]] = Relation(words[1],trans)
+		relations[words[1]] = Predicate(words[1],trans)
 		if opp:
-			relations[opp] = Relation(opp,trans, \
+			relations[opp] = Predicate(opp,trans, \
 				relations[words[1]])
 	elif words[0] == 'list':
 		print("Concepts:", concepts.keys())
-		print("Relations:", relations.keys())
+		print("Predicates:", relations.keys())
 	else:
 		subject = concepts[words[0]]
 		relation = relations[words[1]]

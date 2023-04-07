@@ -1,10 +1,20 @@
 """Semantic Network"""
 
 class Concept:
-	def __init__(self, slug):
+	def __init__(self, slug, transitive=1, inverse=None):
 		self.slug = slug
 		self.m_objects = {}
 		self.m_subjects = {}
+
+		# a relation @ is transitive if
+		# A @ B and B @ C implies A @ C
+		self.transitive = transitive
+
+		if inverse:
+			self.inverse = inverse
+			inverse.inverse = self
+		else:
+			self.inverse = None
 
 	def __str__(self):
 		return self.slug
@@ -70,23 +80,6 @@ class Concept:
 			out = out + p.get_subjects(relation)
 		return out
 
-class Relation:
-	def __init__(self, slug, transitive=1, inverse=None):
-		self.slug = slug
-
-		# a relation @ is transitive if
-		# A @ B and B @ C implies A @ C
-		self.transitive = transitive
-
-		if inverse:
-			self.inverse = inverse
-			inverse.inverse = self
-		else:
-			self.inverse = None
-
-	def __str__(self): return self.slug
-	def __repr__(self): return str(self)
-
 	def __call__(self, subject, object=None):
 		# when used as a function, check to see whether
 		# this relation applies
@@ -94,6 +87,10 @@ class Relation:
 		if not object: return obs
 		if not obs or object not in obs: return 0
 		else: return 1
+
+
+Predicate = Concept
+
 
 class Fact:
 	def __init__(self, subject, relation, object):
@@ -115,8 +112,8 @@ class Fact:
 # other modules MUST properly use this, rather than
 # define their own "is-a", since it has special meaning (inheritance).
 
-IS_A = Relation("is-a", 1)
-EXAMPLE_OF = Relation("exampleOf", 1, IS_A)
+IS_A = Predicate("is-a", 1)
+EXAMPLE_OF = Predicate("exampleOf", 1, IS_A)
 
 # functions to allow outside access to these objects more easily:
 def get_is_a(): return IS_A
