@@ -1,7 +1,7 @@
 """Semantic Network"""
 
 class Entity:
-	def __init__(self,id):
+	def __init__(self, id):
 		self.id = id
 		self.m_objects = {}
 		self.m_agents = {}
@@ -12,7 +12,7 @@ class Entity:
 	def __repr__(self):
 		return str(self)
 
-	def objects(self,relation):
+	def objects(self, relation):
 		try: ans = self.m_objects[relation]
 		except: ans = []
 		if relation.transitive:
@@ -22,7 +22,7 @@ class Entity:
 				ans = ans + i.objects(relation)
 		return ans
 
-	def agents(self,relation):
+	def agents(self, relation):
 		try: ans = self.m_agents[relation]
 		except: ans = []
 		if relation.inverse and relation.inverse.transitive:
@@ -39,7 +39,7 @@ class Entity:
 		except:
 			self.m_objects[relation] = [object]
 
-	def store_agent(self,relation,agent):
+	def store_agent(self, relation, agent):
 		try:
 			lst = self.m_agents[relation]
 			if agent not in lst: lst.append(agent)
@@ -50,7 +50,7 @@ class Entity:
 	# where this (self) is the agent.  These are cumulative.
 	# Note that there is no way currently for a subclass to
 	# override a base class; it can only extend it.
-	def get_objects(self,relation):
+	def get_objects(self, relation):
 		out = self.objects(relation)
 		# also check type-ancestors (base classes)
 		try: parents = self.m_objects[IS_A]
@@ -61,7 +61,7 @@ class Entity:
 
 	# Get all the agents of a particular relation,
 	# where this (self) is the object.  These are cumulative.
-	def get_agents(self,relation):
+	def get_agents(self, relation):
 		out = self.agents(relation)
 		# also check type-ancestors (base classes)
 		try: parents = self.m_objects[IS_A]
@@ -71,7 +71,7 @@ class Entity:
 		return out
 
 class Relation:
-	def __init__(self, id, transitive=1, inverse=None ):
+	def __init__(self, id, transitive=1, inverse=None):
 		self.id = id
 
 		# a relation @ is transitive if
@@ -102,20 +102,20 @@ class Fact:
 		self.object = object
 
 		# stuff into dictionaries, for searching
-		agent.store_object( relation, object )
-		object.store_agent( relation, agent )
+		agent.store_object(relation, object)
+		object.store_agent(relation, agent)
 
 		# deduce inverse relations as well
 		if relation.inverse:
-			object.store_object( relation.inverse, agent )
-			agent.store_agent( relation.inverse, object )
+			object.store_object(relation.inverse, agent)
+			agent.store_agent(relation.inverse, object)
 
 
 # declare global "is-a" relationship.
 # other modules MUST properly use this, rather than
 # define their own "is-a", since it has special meaning (inheritance).
 
-IS_A = Relation("is-a",1)
+IS_A = Relation("is-a", 1)
 EXAMPLE_OF = Relation("exampleOf", 1, IS_A)
 
 # functions to allow outside access to these objects more easily:

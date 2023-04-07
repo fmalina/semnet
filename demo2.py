@@ -3,7 +3,7 @@ from semnet import *
 isa = get_is_a()
 example = get_example_of()
 
-g_relations = {'isa':isa, 'exampleOf':example }
+g_relations = {'isa': isa, 'exampleOf': example}
 g_entities = {}
 
 
@@ -37,26 +37,24 @@ def handle_command(cmd, entities=g_entities, relations=g_relations):
 		relation = relations[words[1]]
 		if words[2][-1] == '?':
 			object = entities[words[2][:-1]]
-			handle_question( agent, relation, object )
+			handle_question(agent, relation, object)
 		else:
 			object = entities[words[2]]
-			handle_statement( agent, relation, object )
+			handle_statement(agent, relation, object)
 
-def handle_question( agent, relation, object ):
+def handle_question(agent, relation, object):
 	if relation(agent,object): print("yes")
 	else: print("no")
 
-def handle_statement( agent, relation, object ):
-	if relation(agent,object):
+def handle_statement(agent, relation, object):
+	if relation(agent, object):
 		print("I already knew that.")
 	else:
-		Fact( agent, relation, object )
+		Fact(agent, relation, object)
 		print("OK.")
 
 
-
-
-print("Ready.  Enter 'quit' (without quotes) to exit.")
+print("Ready. Enter 'quit' (without quotes) to exit.")
 cmd = ''
 while cmd != 'quit':
 	cmd = input("Command? ")

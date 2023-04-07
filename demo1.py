@@ -37,16 +37,16 @@ biggerThan = Relation("bigger than", 1)
 smallerThan = Relation("smaller than", 1, biggerThan)
 
 # declare a couple facts
-Fact( minnow, smallerThan, trout )
-Fact( trout, smallerThan, ape )
+Fact(minnow, smallerThan, trout)
+Fact(trout, smallerThan, ape)
 
 # look at all the things we know now!
-print("ape is a fish?", isa(ape,fish))
-print("minnow is a fish?", isa(minnow,fish))
-print("minnow is an animal?", isa(minnow,animal))
+print("ape is a fish?", isa(ape, fish))
+print("minnow is a fish?", isa(minnow, fish))
+print("minnow is an animal?", isa(minnow, animal))
 print()
-print("ape bigger than minnow?", biggerThan(ape,minnow))
-print("minnow bigger than trout?", biggerThan(minnow,trout))
+print("ape bigger than minnow?", biggerThan(ape, minnow))
+print("minnow bigger than trout?", biggerThan(minnow, trout))
 print("minnow is smaller than:", minnow.objects(smallerThan))
 print("ape is bigger than:", ape.objects(biggerThan))
 
@@ -54,22 +54,22 @@ print("ape is bigger than:", ape.objects(biggerThan))
 act = Entity("act")
 swim = Entity("swim")
 walk = Entity("walk")
-Fact( swim, isa, act )
-Fact( walk, isa, act )
+Fact(swim, isa, act)
+Fact(walk, isa, act)
 
 # declare an "ableTo" relation, so we can say who can do what
 ableTo = Relation("ableTo", 0)
 whatCan = Relation("whatCan", 0, ableTo)
 
 # note that fish can swim and apes can walk
-Fact( fish, ableTo, swim )
-Fact( walk, whatCan, ape )
+Fact(fish, ableTo, swim)
+Fact(walk, whatCan, ape)
 
 # see what we can say about swimming ability
 print()
-print("fish can swim?", ableTo( fish, swim ))
-print("minnow can swim?", ableTo( minnow, swim ))
-print("bird can swim?", ableTo( bird, swim ))
+print("fish can swim?", ableTo(fish, swim))
+print("minnow can swim?", ableTo(minnow, swim))
+print("bird can swim?", ableTo(bird, swim))
 print("what can swim?", swim.get_objects(whatCan))
 print("what can act?", act.get_objects(whatCan))
 
@@ -79,12 +79,12 @@ whatHas = Relation("whatHas", 0, has)
 
 scales = Entity("scales")
 hair = Entity("hair")
-Fact( fish, has, scales )
-Fact( ape, has, hair )
+Fact(fish, has, scales)
+Fact(ape, has, hair)
 
 print()
-print("minnow has hair?", has( minnow, hair ))
-print("minnow has scales?", has( minnow, scales ))
-print("ape has hair?", has( ape, hair ))
-print("ape has scales?", has( ape, scales ))
+print("minnow has hair?", has(minnow, hair))
+print("minnow has scales?", has(minnow, scales))
+print("ape has hair?", has(ape, hair))
+print("ape has scales?", has(ape, scales))
 print("what has scales?", scales.get_agents(has))
