@@ -22,67 +22,67 @@ class Concept:
 	def __repr__(self):
 		return str(self)
 
-	def objects(self, relation):
-		try: ans = self.m_objects[relation]
+	def objects(self, predicate):
+		try: ans = self.m_objects[predicate]
 		except: ans = []
-		if relation.transitive:
-			# if it's a transitive relation,
+		if predicate.transitive:
+			# if it's a transitive predicate,
 			# pursue recursively
 			for i in tuple(ans):
-				ans = ans + i.objects(relation)
+				ans = ans + i.objects(predicate)
 		return ans
 
-	def subjects(self, relation):
-		try: ans = self.m_subjects[relation]
+	def subjects(self, predicate):
+		try: ans = self.m_subjects[predicate]
 		except: ans = []
-		if relation.inverse and relation.inverse.transitive:
-			# if its inverse is a transitive relation,
+		if predicate.inverse and predicate.inverse.transitive:
+			# if its inverse is a transitive predicate,
 			# pursue recursively
 			for i in tuple(ans):
-				ans = ans + i.subjects(relation)
+				ans = ans + i.subjects(predicate)
 		return ans
 
-	def store_object(self,relation,object):
+	def store_object(self,predicate,object):
 		try:
-			lst = self.m_objects[relation]
+			lst = self.m_objects[predicate]
 			if object not in lst: lst.append(object)
 		except:
-			self.m_objects[relation] = [object]
+			self.m_objects[predicate] = [object]
 
-	def store_subject(self, relation, subject):
+	def store_subject(self, predicate, subject):
 		try:
-			lst = self.m_subjects[relation]
+			lst = self.m_subjects[predicate]
 			if subject not in lst: lst.append(subject)
 		except:
-			self.m_subjects[relation] = [subject]
+			self.m_subjects[predicate] = [subject]
 
 	# Get all the objects of a particular relation,
 	# where this (self) is the subject.  These are cumulative.
 	# Note that there is no way currently for a subclass to
 	# override a base class; it can only extend it.
-	def get_objects(self, relation):
-		out = self.objects(relation)
+	def get_objects(self, predicate):
+		out = self.objects(predicate)
 		# also check type-ancestors (base classes)
 		try: parents = self.m_objects[IS_A]
 		except: return out
 		for p in parents:
-			out = out + p.get_objects(relation)
+			out = out + p.get_objects(predicate)
 		return out
 
-	# Get all the subjects of a particular relation,
+	# Get all the subjects of a particular predicate,
 	# where this (self) is the object.  These are cumulative.
-	def get_subjects(self, relation):
-		out = self.subjects(relation)
+	def get_subjects(self, predicate):
+		out = self.subjects(predicate)
 		# also check type-ancestors (base classes)
 		try: parents = self.m_objects[IS_A]
 		except: return out
 		for p in parents:
-			out = out + p.get_subjects(relation)
+			out = out + p.get_subjects(predicate)
 		return out
 
 	def __call__(self, subject, object=None):
 		# when used as a function, check to see whether
-		# this relation applies
+		# this predicate applies
 		obs = subject.get_objects(self)
 		if not object: return obs
 		if not obs or object not in obs: return 0
@@ -93,19 +93,19 @@ Predicate = Concept
 
 
 class Fact:
-	def __init__(self, subject, relation, object):
+	def __init__(self, subject, predicate, object):
 		self.subject = subject
-		self.relation = relation
+		self.predicate = predicate
 		self.object = object
 
 		# stuff into dictionaries, for searching
-		subject.store_object(relation, object)
-		object.store_subject(relation, subject)
+		subject.store_object(predicate, object)
+		object.store_subject(predicate, subject)
 
 		# deduce inverse relations as well
-		if relation.inverse:
-			object.store_object(relation.inverse, subject)
-			subject.store_subject(relation.inverse, object)
+		if predicate.inverse:
+			object.store_object(predicate.inverse, subject)
+			subject.store_subject(predicate.inverse, object)
 
 
 # declare global "is-a" relationship.

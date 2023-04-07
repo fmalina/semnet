@@ -3,7 +3,7 @@ from semnet import *
 isa = get_is_a()
 example = get_example_of()
 
-g_relations = {'isa': isa, 'exampleOf': example}
+g_predicates = {'isa': isa, 'exampleOf': example}
 g_concepts = {}
 
 
@@ -17,40 +17,40 @@ def ask_yes_no(prompt, default='Y'):
 		print("Please enter Y or N.")
 
 
-def handle_command(cmd, concepts=g_concepts, relations=g_relations):
+def handle_command(cmd, concepts=g_concepts, predicates=g_predicates):
 	"""Respond to a command from the user"""
 	words = cmd.lower().split()
 	if words[0] in ('concept', 'c', 'entity', 'e'):
 		concepts[words[1]] = Concept(words[1])
-	elif words[0] in ('relation', 'r'):
+	elif words[0] in ('predicate', 'p', 'relation', 'r'):
 		trans = ask_yes_no("Transitive?")
 		opp = input("Opposite? ").lower()
-		relations[words[1]] = Predicate(words[1],trans)
+		predicates[words[1]] = Predicate(words[1],trans)
 		if opp:
-			relations[opp] = Predicate(opp,trans, \
-				relations[words[1]])
+			predicates[opp] = Predicate(opp,trans, \
+				predicates[words[1]])
 	elif words[0] == 'list':
 		print("Concepts:", concepts.keys())
-		print("Predicates:", relations.keys())
+		print("Predicates:", predicates.keys())
 	else:
 		subject = concepts[words[0]]
-		relation = relations[words[1]]
+		predicate = predicates[words[1]]
 		if words[2][-1] == '?':
 			object = concepts[words[2][:-1]]
-			handle_question(subject, relation, object)
+			handle_question(subject, predicate, object)
 		else:
 			object = concepts[words[2]]
-			handle_statement(subject, relation, object)
+			handle_statement(subject, predicate, object)
 
-def handle_question(subject, relation, object):
-	if relation(subject,object): print("yes")
+def handle_question(subject, predicate, object):
+	if predicate(subject,object): print("yes")
 	else: print("no")
 
-def handle_statement(subject, relation, object):
-	if relation(subject, object):
+def handle_statement(subject, predicate, object):
+	if predicate(subject, object):
 		print("I already knew that.")
 	else:
-		Fact(subject, relation, object)
+		Fact(subject, predicate, object)
 		print("OK.")
 
 
