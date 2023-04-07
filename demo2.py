@@ -33,24 +33,24 @@ def handle_command(cmd, concepts=g_concepts, relations=g_relations):
 		print("Concepts:", concepts.keys())
 		print("Relations:", relations.keys())
 	else:
-		agent = concepts[words[0]]
+		subject = concepts[words[0]]
 		relation = relations[words[1]]
 		if words[2][-1] == '?':
 			object = concepts[words[2][:-1]]
-			handle_question(agent, relation, object)
+			handle_question(subject, relation, object)
 		else:
 			object = concepts[words[2]]
-			handle_statement(agent, relation, object)
+			handle_statement(subject, relation, object)
 
-def handle_question(agent, relation, object):
-	if relation(agent,object): print("yes")
+def handle_question(subject, relation, object):
+	if relation(subject,object): print("yes")
 	else: print("no")
 
-def handle_statement(agent, relation, object):
-	if relation(agent, object):
+def handle_statement(subject, relation, object):
+	if relation(subject, object):
 		print("I already knew that.")
 	else:
-		Fact(agent, relation, object)
+		Fact(subject, relation, object)
 		print("OK.")
 
 
